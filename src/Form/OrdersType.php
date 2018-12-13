@@ -4,17 +4,25 @@ namespace App\Form;
 
 use App\Entity\Orders;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class OrdersType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date')
-            ->add('email')
-            ->add('token')
+            ->add('email', EmailType::class)
+            ->add('date', DateType::class)
+            ->add('token', HiddenType::class, array(
+                'data' => 'abcdef',
+            ))
+            ->add('save', SubmitType::class)
         ;
     }
 
