@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tickets;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Forms;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,15 +51,24 @@ class OrderController extends AbstractController
                 ));
     }
     /**
-     * @Route("/ticket/{nbper}/{id}", name="ticket")
+     * @Route("/ticket", name="ticket")
      */
     public function ticket(Request $request)
     {
         // 1) build the form
         $tickets = new Tickets();
+
+
         $request->query->get('nbper');
         $id = $request->query->get('id');
-        $order = getOrderId($id);
+        $idint = intval($id);
+        var_dump($idint);
+        $repository = $this->getDoctrine()->getRepository(Orders::class);
+        $orders = $repository->find(13);
+
+        //var_dump($orders);
+        //$order = $tickets->setOrderId($idint);
+
         $form = $this->createFormBuilder($tickets)
             ->add('date', DateType::class)
             ->add('name', TextType::class)
@@ -68,9 +78,9 @@ class OrderController extends AbstractController
             ->add('reduced', CheckboxType::class)
             ->add('price', CheckboxType::class)
             ->add('token', CheckboxType::class)
-            ->add('order', HiddenType::class, array(
-                'data' => '$id',
-            ))
+            ->add('order_id', EntityType::class, array(
+                'class' => Orders::class,
+                'choice_label' => 'id',))
             ->add('save', SubmitType::class, array('label' => 'Commander'))
             ->getForm();
 
@@ -82,13 +92,14 @@ class OrderController extends AbstractController
 
 
             $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($orders);
             $entityManager->persist($tickets);
             $entityManager->flush();
 
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
 
-            return $this->redirectToRoute('/');
+            return $this->redirectToRoute('');
         }
 
         return $this->render(
