@@ -34,7 +34,7 @@ class Orders
     private $token;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Tickets", mappedBy="order_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Tickets", mappedBy="order_id", orphanRemoval=true, cascade={"persist"})
      */
     private $tickets_id;
 

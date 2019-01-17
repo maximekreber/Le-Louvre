@@ -56,19 +56,20 @@ class OrderController extends AbstractController
     public function ticket(Request $request)
     {
         // 1) build the form
-        $tickets = new Tickets();
 
 
-        $request->query->get('nbper');
-        $id = $request->query->get('id');
+
+        $nbper = $request->query->get('nbper');
+        $nbper = intval($nbper);
+       /* $id = $request->query->get('id');
         $idint = intval($id);
         var_dump($idint);
         $repository = $this->getDoctrine()->getRepository(Orders::class);
-        $orders = $repository->find(13);
+        $orders = $repository->find(13);*/
 
         //var_dump($orders);
         //$order = $tickets->setOrderId($idint);
-
+        $tickets = new Tickets();
         $form = $this->createFormBuilder($tickets)
             ->add('date', DateType::class)
             ->add('name', TextType::class)
@@ -83,7 +84,7 @@ class OrderController extends AbstractController
                 'choice_label' => 'id',))
             ->add('save', SubmitType::class, array('label' => 'Commander'))
             ->getForm();
-
+            
         // 2) handle the submit (will only happen on POST)
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -92,7 +93,7 @@ class OrderController extends AbstractController
 
 
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($orders);
+            // $entityManager->persist($orders);
             $entityManager->persist($tickets);
             $entityManager->flush();
 
@@ -105,6 +106,7 @@ class OrderController extends AbstractController
         return $this->render(
             '/order/index.html.twig',
             array('form' => $form->createView(),
+            'nbper' => $nbper,
             ));
     }
 }

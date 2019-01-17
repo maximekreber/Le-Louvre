@@ -11,6 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\Form\TicketsType;
+use App\Entity\Tickets;
 
 class OrdersType extends AbstractType
 {
@@ -22,7 +25,13 @@ class OrdersType extends AbstractType
             ->add('token', HiddenType::class, array(
                 'data' => 'abcdef',
             ))
+            ->add('tickets_id', CollectionType::class, [
+                'entry_type'   => TicketsType::class,
+                'allow_add'    => true,
+                'allow_delete' => true,
+                ])
             ->add('save', SubmitType::class)
+
         ;
     }
 
