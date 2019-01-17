@@ -27,12 +27,13 @@ class TicketsType extends AbstractType
         ->add('reduced', CheckboxType::class)
         ->add('price', CheckboxType::class)
         ->add('token', CheckboxType::class)
-        ->add('order_id', EntityType::class, [
+       /* ->add('order_id', EntityType::class, [
             // looks for choices from this entity
             'class' => Orders::class,
         
             // uses the User.username property as the visible option string
-            'choice_label' => 'id',])
+            'choice_label' => 'id',
+                ])*/
         // ->add('save', SubmitType::class, array('label' => 'Commander'))
         ;
         

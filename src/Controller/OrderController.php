@@ -38,6 +38,7 @@ class OrderController extends AbstractController
             $entityManager->persist($orders);
             $entityManager->flush();
             $entityManager->refresh($orders);
+        
 
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
