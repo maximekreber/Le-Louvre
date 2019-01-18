@@ -42,14 +42,26 @@ class OrderController extends AbstractController
 
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
-            $nbper = 5 ;
-            return $this->redirectToRoute('ticket', array('nbper' => $nbper, 'id'=>$orders->getId()));
+            return $this->redirectToRoute('stripe', array('id'=>$orders->getId()));
         }
 
         return $this->render(
             '/order/index.html.twig',
             array('form' => $form->createView(),
                 ));
+    }
+    /**
+     * @Route("/stripe", name="stripe")
+     */
+    public function stripe(Request $request)
+    {
+        $id = $request->query->get('id');
+        $idint = intval($id);
+        var_dump($idint);
+
+        return $this->render(
+            '/order/stripe.html.twig'
+                );
     }
     /**
      * @Route("/ticket", name="ticket")
