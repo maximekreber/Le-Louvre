@@ -63,6 +63,30 @@ class OrderController extends AbstractController
             '/order/stripe.html.twig'
                 );
     }
+
+    /**
+     * @Route("/payement", name="payement")
+     */
+
+    public function payement(Request $request)
+    {
+        \Stripe\Stripe::setApiKey("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
+
+        // Token is created using Checkout or Elements!
+        // Get the payment token ID submitted by the form:
+        $token = $_POST['stripeToken'];
+        
+        $charge = \Stripe\Charge::create([
+            'amount' => 999,
+            'currency' => 'eur',
+            'description' => 'Example charge',
+            'source' => $token,
+        ]);
+
+        return $this->render(
+            '/order/payement.html.twig'
+                );
+    }
     /**
      * @Route("/ticket", name="ticket")
      */
