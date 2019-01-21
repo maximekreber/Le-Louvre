@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use App\Service\Email;
 
 class OrderController extends AbstractController
 {
@@ -68,7 +69,7 @@ class OrderController extends AbstractController
      * @Route("/payement", name="payement")
      */
 
-    public function payement(Request $request)
+    public function payement(Request $request,Email $Email)
     {
         \Stripe\Stripe::setApiKey("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
