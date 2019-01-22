@@ -36,15 +36,17 @@ class TicketsRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Tickets
+    // /**
+    //  * @return Tickets[] Returns an array of Tickets objects
+    //  */
+    public function findByOrderId($value)
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
+            ->andWhere('t.order_id = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+    
 }

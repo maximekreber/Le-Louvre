@@ -4,16 +4,44 @@ namespace App\Service;
 
 class Email
 {
-    public function getHappyMessage()
+    private $mailer;
+    private $templating;
+
+    public function __construct(\Swift_Mailer $mailer, \Twig_Environment $templating)
     {
-        $messages = [
-            'You did it! You updated the system! Amazing!',
-            'That was one of the coolest updates I\'ve seen all day!',
-            'Great work! Keep going!',
-        ];
+        $this->mailer     = $mailer;
+        $this->templating = $templating;
+    }
 
-        $index = array_rand($messages);
+    public function sendEmail()
+    {
+        $message = (new \Swift_Message('Hello Email'))
+        ->setFrom('projetopenclassroom@gmail.com')
+        ->setTo('projetopenclassroom@gmail.com')
+        ->setBody(
+            $this->renderView(
+                // templates/emails/registration.html.twig
+                'emails/registration.html.twig',
+                ['name' => $name]
+            ),
+            'text/html'
+        )
+        /*
+         * If you also want to include a plaintext version of the message
+        ->addPart(
+            $this->renderView(
+                'emails/registration.txt.twig',
+                ['name' => $name]
+            ),
+            'text/plain'
+        )
+        */
+    ;
 
-        return $messages[$index];
+    $mailer->send($message);
+
+        $message = $this->templating->render('order/payement.html.twig');
+
+        // ...
     }
 }

@@ -88,6 +88,56 @@ class OrderController extends AbstractController
             '/order/payement.html.twig'
                 );
     }
+    
+    /**
+     * @Route("/test", name="test")
+     */
+
+    public function test(Request $request,\Swift_Mailer $mailer)
+    {
+        $idt = $request->query->get('id');
+        $idint = intval($idt);
+        var_dump($idint);
+
+        $repository = $this->getDoctrine()->getRepository(Tickets::class);
+        $ticketsid = $repository->findByOrderId($idint);
+
+        foreach ($ticketsid as $ticketstest) {
+        var_dump($ticketstest->getId());
+        }
+
+        $message = (new \Swift_Message('Hello Email'))
+        ->setFrom('projetopenclassroom@gmail.com')
+        ->setTo('projetopenclassroom@gmail.com')
+        ->setBody(
+            $this->renderView(
+                // templates/emails/registration.html.twig
+                'order/payement.html.twig',array(
+                    'tickets' => $ticketsid
+                )
+            ),
+            'text/html'
+        )
+        /*
+         * If you also want to include a plaintext version of the message
+        ->addPart(
+            $this->renderView(
+                'emails/registration.txt.twig',
+                ['name' => $name]
+            ),
+            'text/plain'
+        )
+        */
+    ;
+
+    $mailer->send($message);
+
+        return $this->render(
+            '/order/payement.html.twig',array(
+                'tickets' => $ticketsid
+            )
+                );
+    }
     /**
      * @Route("/ticket", name="ticket")
      */

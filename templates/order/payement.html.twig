@@ -5,4 +5,7 @@
 {% block body %}
 Payement Work
 
+{% for ticket in tickets %}
+        <li>{{ ticket.id }}</li>
+    {% endfor %}
 {% endblock %}
