@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tickets;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+//use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Forms;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use App\Service\Email;
+use App\Service\OrderService;
 
 class OrderController extends AbstractController
 {
@@ -60,6 +61,15 @@ class OrderController extends AbstractController
         $idint = intval($id);
         var_dump($idint);
 
+        $repository = $this->getDoctrine()->getRepository(Tickets::class);
+        $ticketsid = $repository->findByOrderId($idint);
+        $TotalPrice = 0;
+
+        foreach ($ticketsid as $ticketstest) {
+            $TotalPrice = $TotalPrice + $ticketstest->getPrice();
+            var_dump($TotalPrice);
+            }
+        
         return $this->render(
             '/order/stripe.html.twig'
                 );
@@ -69,7 +79,7 @@ class OrderController extends AbstractController
      * @Route("/payement", name="payement")
      */
 
-    public function payement(Request $request,Email $Email)
+    public function payement(Request $request)
     {
         \Stripe\Stripe::setApiKey("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
@@ -136,6 +146,21 @@ class OrderController extends AbstractController
             '/order/payement.html.twig',array(
                 'tickets' => $ticketsid
             )
+                );
+    }
+     /**
+     * @Route("/testcalcul", name="testcalcul")
+     */
+    public function testcalcul(Request $request,OrderService $OrderService)
+    {
+        $idt = $request->query->get('id');
+        $idint = intval($idt);
+        var_dump($idint);
+
+        $OrderService->SumTicket($idint);
+
+        return $this->render(
+            'base.html.twig'
                 );
     }
     /**
