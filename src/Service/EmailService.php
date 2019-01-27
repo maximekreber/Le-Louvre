@@ -1,16 +1,19 @@
 <?php
-// src/Service/Email.php
+// src/Service/EmailService.php
 namespace App\Service;
 
-class Email
-{
-    private $mailer;
-    private $templating;
+use Twig\Environment;
 
-    public function __construct(\Swift_Mailer $mailer, \Twig_Environment $templating)
+class EmailService
+{
+    protected $mailer;
+
+    private $twig;
+
+    public function __construct(\Swift_Mailer $mailer,Environment $twig)
     {
-        $this->mailer     = $mailer;
-        $this->templating = $templating;
+        $this->mailer = $mailer;
+        $this->twig = $twig;
     }
 
     public function sendEmail()
@@ -19,10 +22,10 @@ class Email
         ->setFrom('projetopenclassroom@gmail.com')
         ->setTo('projetopenclassroom@gmail.com')
         ->setBody(
-            $this->renderView(
+            $this->twig->render(
                 // templates/emails/registration.html.twig
-                'emails/registration.html.twig',
-                ['name' => $name]
+                'base.html.twig'/*,
+                ['name' => $name]*/
             ),
             'text/html'
         )
@@ -38,10 +41,7 @@ class Email
         */
     ;
 
-    $mailer->send($message);
+    return $this->mailer->send($message);
 
-        $message = $this->templating->render('order/payement.html.twig');
-
-        // ...
     }
 }

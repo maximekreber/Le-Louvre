@@ -2,11 +2,8 @@
 // src/Service/OrderService.php
 namespace App\Service;
 
-use App\Repository\TicketsRepository;
 use App\Entity\Tickets;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 
 class OrderService 
 {

@@ -18,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-use App\Service\Email;
+use App\Service\EmailService;
 use App\Service\OrderService;
 
 class OrderController extends AbstractController
@@ -151,12 +151,13 @@ class OrderController extends AbstractController
      /**
      * @Route("/testcalcul", name="testcalcul")
      */
-    public function testcalcul(Request $request,OrderService $OrderService)
+    public function testcalcul(Request $request,OrderService $OrderService,EmailService $EmailService)
     {
         $idt = $request->query->get('id');
         $idint = intval($idt);
         var_dump($idint);
 
+        $EmailService->SendEmail();
         $OrderService->SumTicket($idint);
 
         return $this->render(
