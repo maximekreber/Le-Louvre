@@ -65,13 +65,21 @@ class OrderController extends AbstractController
         $ticketsid = $repository->findByOrderId($idint);
         $TotalPrice = 0;
 
+        $repository = $this->getDoctrine()->getRepository(Orders::class);
+        $orderid = $repository->find($idint);
+
+        $email = $orderid->GetEmail();
         foreach ($ticketsid as $ticketstest) {
             $TotalPrice = $TotalPrice + $ticketstest->getPrice();
             var_dump($TotalPrice);
             }
         
         return $this->render(
-            '/order/stripe.html.twig'
+            '/order/stripe.html.twig',array(
+                'idint' => $idint,
+                'Price' => $TotalPrice,
+                'Email' => $email
+            )
                 );
     }
 
@@ -79,23 +87,22 @@ class OrderController extends AbstractController
      * @Route("/payement", name="payement")
      */
 
-    public function payement(Request $request)
+    public function payement(Request $request,OrderService $OrderService)
     {
-        \Stripe\Stripe::setApiKey("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
+        $OrderService->StripeCheckIn();
 
-        // Token is created using Checkout or Elements!
-        // Get the payment token ID submitted by the form:
-        $token = $_POST['stripeToken'];
-        
-        $charge = \Stripe\Charge::create([
-            'amount' => 999,
-            'currency' => 'eur',
-            'description' => 'Example charge',
-            'source' => $token,
-        ]);
+        $id = $request->query->get('id');
+        $idint = intval($id);
+
+        $repository = $this->getDoctrine()->getRepository(Tickets::class);
+        $ticketsid = $repository->findByOrderId($idint);
+
+        $OrderService->SumTicket($idint);
 
         return $this->render(
-            '/order/payement.html.twig'
+            '/order/payement.html.twig',array(
+                'tickets' => $ticketsid
+            )
                 );
     }
     

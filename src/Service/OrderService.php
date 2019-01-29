@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class OrderService 
 {
-    protected $entityManager;
+    private $entityManager;
 
 
     public function __construct(EntityManagerInterface $entityManager)
@@ -17,7 +17,7 @@ class OrderService
     
     public function StripeCheckIn()
     {
-        \Stripe\Stripe::setApiKey("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
+        \Stripe\Stripe::setApiKey("sk_test_OBYLdnEywNxjtYmtslFnKy7E");
 
         // Token is created using Checkout or Elements!
         // Get the payment token ID submitted by the form:
@@ -38,7 +38,6 @@ class OrderService
         
         foreach ($ticketsid as $ticketstest) {
             $TotalPrice = $TotalPrice + $ticketstest->getPrice();
-            var_dump($TotalPrice);
             }
             return $TotalPrice;
     }

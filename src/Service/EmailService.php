@@ -6,7 +6,7 @@ use Twig\Environment;
 
 class EmailService
 {
-    protected $mailer;
+    private $mailer;
 
     private $twig;
 

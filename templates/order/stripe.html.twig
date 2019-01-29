@@ -4,16 +4,16 @@
 
 {% block body %}
 
-    <form action="/payement" method="POST">
+    <form action="/payement?id={{ idint }}" method="POST">
     <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key="pk_test_TYooMQauvdEDq54NiTphI7jx"
+    data-key="pk_test_nagZJwyMGwBiDe1FPGhjLlbt"
     data-currency="eur"
-    data-email="test@gmail.com"
-    data-amount="999"
-    data-name="Stripe.com"
-    data-description="Example charge"
-    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-email="{{ Email }}"
+    data-amount="{{ Price }}"
+    data-name="Le Louvre"
+    data-description="Achat ticket en ligne"
+    data-image="https://upload.wikimedia.org/wikipedia/fr/9/9f/Musee_du_Louvre_1992_logo.png"
     data-locale="auto"
     data-zip-code="true">
   </script>
