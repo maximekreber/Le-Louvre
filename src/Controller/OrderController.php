@@ -20,13 +20,14 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use App\Service\EmailService;
 use App\Service\OrderService;
+use Symfony\Component\HttpFoundation\Session\Session; 
 
 class OrderController extends AbstractController
 {
     /**
      * @Route("/order", name="order")
      */
-    public function index(Request $request)
+    public function index(Request $request,Session $Session)
     {
         // 1) build the form
         $orders = new Orders();
@@ -55,11 +56,18 @@ class OrderController extends AbstractController
     /**
      * @Route("/stripe", name="stripe")
      */
-    public function stripe(Request $request)
+    public function stripe(Request $request,OrderService $OrderService)
     {
         $id = $request->query->get('id');
         $idint = intval($id);
         var_dump($idint);
+
+        $error = $OrderService->Check1000Ticket($idint);
+        if(isset($error))
+        {
+            $this->addFlash('error', $error);
+            return $this->redirectToRoute('order');
+        }
 
         $repository = $this->getDoctrine()->getRepository(Tickets::class);
         $ticketsid = $repository->findByOrderId($idint);

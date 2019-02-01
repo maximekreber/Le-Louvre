@@ -67,4 +67,18 @@ class OrderService
             }
             return $TotalPrice;
     }
+    public function Check1000Ticket($orderid)
+    {
+      $repository = $this->entityManager->getRepository(Tickets::class);
+      $ticketsid = $repository->findByOrderId($orderid);
+
+      $tickets0 = $ticketsid['0'];
+      $ticketdate = $tickets0->GetDate();
+      $date = $repository->findByDate($ticketdate);
+      $count = count($date);
+        if($count >= 1000)
+      {
+        return "Il n'y a plus de ticket disponible à cette date.Veuillez choisir une autre date";
+      }
+    }
 }

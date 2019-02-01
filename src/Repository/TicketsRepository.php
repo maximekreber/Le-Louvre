@@ -48,5 +48,17 @@ class TicketsRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    // /**
+    //  * @return Tickets[] Returns an array of Tickets objects
+    //  */
+    public function findByDate($value)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.date = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     
 }

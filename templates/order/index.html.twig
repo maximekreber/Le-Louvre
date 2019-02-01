@@ -3,6 +3,15 @@
 {% block title %}Commander {% endblock %}
 
 {% block body %}
+    {% for flashMessage in app.flashes('error') %}
+
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <h4 class="alert-heading">Error</h4>
+        <p>{{ flashMessage }}</p>
+    </div>
+
+    {% endfor %}
+
     {{ form_start(form) }}
     
     <ul class="tags" data-prototype="{{ form_widget(form.tickets_id.vars.prototype)|e('html_attr') }}">
