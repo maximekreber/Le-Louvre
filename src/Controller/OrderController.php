@@ -89,11 +89,18 @@ class OrderController extends AbstractController
 
     public function payement(Request $request,OrderService $OrderService)
     {
-        $OrderService->StripeCheckIn();
+        
 
         $id = $request->query->get('id');
         $idint = intval($id);
+        $error = $OrderService->StripeCheckIn($idint);
+        
 
+        if(isset($error))
+        {
+            $this->addFlash('error', $error);
+            return $this->redirectToRoute('stripe', array('id'=> $idint));
+        }
         $repository = $this->getDoctrine()->getRepository(Tickets::class);
         $ticketsid = $repository->findByOrderId($idint);
 
