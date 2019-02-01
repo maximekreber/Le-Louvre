@@ -81,37 +81,12 @@ class OrderService
         return "Il n'y a plus de ticket disponible à cette date.Veuillez choisir une autre date";
       }
     }
-    public function YearsOld($value)
-    {
-      $datetime1 = new \DateTime();                // date actuelle
-      $datetime2 = new \DateTime($value);          // valeur rentrée par le futur inscrit
-      $interval = $datetime1->diff($datetime2);
-      
-        if($interval->format('Y') < 15)//reduced
-          {
-            $ticket->SetPrice(1000);
-          }
-
-           elseif($interval->format('Y') < 15){//baby
-            $ticket->SetPrice(0);
-           }
-           elseif($interval->format('Y') < 15){//child
-            $ticket->SetPrice(800);
-          }
-          elseif($interval->format('Y') < 15){//senior
-            $ticket->SetPrice(1200);
-          }
-          else{//normal
-            $ticket->SetPrice(1600);
-          }
-    }
-
     public function TicketPrice($orderid)
     {
       $repository = $this->entityManager->getRepository(Tickets::class);
       $ticketsid = $repository->findByOrderId($orderid);
         foreach($ticketsid as $ticket){
-          $date = $ticket->GetDate()->format('Y-m-d');
+          $date = $ticket->GetBirthDate()->format('Y-m-d');
           $date = strtotime($date);
           $datetime1 = new \DateTime();                // date actuelle
           $datetime2 = new \DateTime();          // valeur rentrée par le futur inscrit
