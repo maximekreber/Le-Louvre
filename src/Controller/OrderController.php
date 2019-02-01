@@ -61,14 +61,14 @@ class OrderController extends AbstractController
         $id = $request->query->get('id');
         $idint = intval($id);
         var_dump($idint);
-
+        $OrderService->TicketPrice($idint);
         $error = $OrderService->Check1000Ticket($idint);
         if(isset($error))
         {
             $this->addFlash('error', $error);
             return $this->redirectToRoute('order');
         }
-
+        $OrderService->TicketPrice($idint);
         $repository = $this->getDoctrine()->getRepository(Tickets::class);
         $ticketsid = $repository->findByOrderId($idint);
         $TotalPrice = 0;
