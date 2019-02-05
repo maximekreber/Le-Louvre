@@ -88,9 +88,14 @@ class OrderService
         foreach($ticketsid as $ticket){
           $date = $ticket->GetBirthDate()->format('Y-m-d');
           $date = strtotime($date);
-          $datetime1 = new \DateTime();                // date actuelle
-          $datetime2 = new \DateTime();          // valeur rentrée par le futur inscrit
+          $date1 = $ticket->GetDate()->format('Y-m-d');
+          $date1 = strtotime($date1);
+          $datetime1 = new \DateTime();                // visitdate
+          $datetime2 = new \DateTime();                // birthdate
+
+          $datetime1->setTimestamp($date1);
           $datetime2->setTimestamp($date);
+
           $interval = $datetime2->diff($datetime1);
           $reduced = $ticket->GetReduced();
           $yo = $interval->y; 
