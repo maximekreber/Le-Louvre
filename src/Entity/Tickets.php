@@ -19,12 +19,12 @@ class Tickets
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $surname;
+    private $lastname;
 
     /**
      * @ORM\Column(type="boolean")
@@ -62,31 +62,36 @@ class Tickets
      */
     private $order_id;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $country;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->name;
+        return $this->firstname;
     }
 
-    public function setName(string $name): self
+    public function setFirstname(string $firstname): self
     {
-        $this->name = $name;
+        $this->firstname = $firstname;
 
         return $this;
     }
 
-    public function getSurname(): ?string
+    public function getLastname(): ?string
     {
-        return $this->surname;
+        return $this->lastname;
     }
 
-    public function setSurname(string $surname): self
+    public function setLastname(string $lastname): self
     {
-        $this->surname = $surname;
+        $this->lastname = $lastname;
 
         return $this;
     }
@@ -171,6 +176,18 @@ class Tickets
     public function setOrderId(?Orders $order_id): self
     {
         $this->order_id = $order_id;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): self
+    {
+        $this->country = $country;
 
         return $this;
     }

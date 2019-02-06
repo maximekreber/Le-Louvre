@@ -174,7 +174,9 @@ class OrderService
     $now = date("Ymd");
     $hours = date("h");
 
-    if($date == $now AND $hours >= 14)
+    $allDay = 0;
+
+    if($date == $now AND $hours >= 14 AND $allDay == 1)
     {
       return "Vous ne pouvez pas réserver pour toute la journée après 14 heures.";
     }
