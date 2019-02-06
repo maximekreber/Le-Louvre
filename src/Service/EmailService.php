@@ -16,16 +16,17 @@ class EmailService
         $this->twig = $twig;
     }
 
-    public function sendEmail()
+    public function sendEmail($orders)
     {
-        $message = (new \Swift_Message('Hello Email'))
+        $email = $orders->getEmail();
+        $message = (new \Swift_Message('Ticket Musée du Louvre'))
         ->setFrom('projetopenclassroom@gmail.com')
-        ->setTo('projetopenclassroom@gmail.com')
+        ->setTo($email)
         ->setBody(
             $this->twig->render(
-                // templates/emails/registration.html.twig
-                'base.html.twig'/*,
-                ['name' => $name]*/
+                // templates/emails/index.html.twig
+                'email/index.html.twig',
+                ['orders' => $orders]
             ),
             'text/html'
         )

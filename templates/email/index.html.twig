@@ -1,0 +1,11 @@
+
+{% block body %}
+
+    {% for ticket in orders.TicketsId %}
+        <li>{{ ticket.country }}</li>
+        <li>{{ ticket.date|date('Y-m-d') }}</li>
+        <li>{{ ticket.firstname }}</li>
+        <li>{{ ticket.lastname }}</li>
+    {% endfor %}
+
+{% endblock %}

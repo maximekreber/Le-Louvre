@@ -90,7 +90,7 @@ class OrderController extends AbstractController
      * @Route("/payement", name="payement")
      */
 
-    public function payement(Request $request,OrderService $OrderService,Session $session)
+    public function payement(Request $request,OrderService $OrderService,Session $session,EmailService $EmailService)
     {
         
         $orders = $session->get('order');
@@ -111,10 +111,12 @@ class OrderController extends AbstractController
             $this->addFlash('error', $error);
             return $this->redirectToRoute('stripe');
         }
+            $EmailService->sendEmail($orders);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($orders);
             $entityManager->flush();
+            
 
 
         return $this->render(
