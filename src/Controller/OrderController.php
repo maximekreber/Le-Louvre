@@ -62,10 +62,15 @@ class OrderController extends AbstractController
         $idint = intval($id);
         var_dump($idint);
         $OrderService->TicketPrice($idint);
-        $error = $OrderService->Check1000Ticket($idint);
-        if(isset($error))
+        $error2 = $OrderService->Check1000Ticket($idint);
+
+        $repository = $this->getDoctrine()->getRepository(Orders::class);
+        $orderid = $repository->find($idint);
+        $error1 = $OrderService->getHolidays($orderid);
+       
+        if(isset($error1) OR isset($error2))
         {
-            $this->addFlash('error', $error);
+            $this->addFlash('error', "$error1 $error2");
             return $this->redirectToRoute('order');
         }
         $OrderService->TicketPrice($idint);
