@@ -204,4 +204,12 @@ class OrderService
         $ticket->SetToken($token);
       }
     }
+    public function SetTicketDate($orders)
+    {
+      $tickets = $orders->GetTicketsId();
+      $date = $orders->GetDate();
+      foreach($tickets as $ticket){
+          $ticket->SetDate($date);
+      }
+    }
 }
