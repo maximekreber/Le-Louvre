@@ -27,25 +27,27 @@ class OrderController extends AbstractController
     /**
      * @Route("/order", name="order")
      */
-    public function index(Request $request,Session $Session)
+    public function index(Request $request,Session $session)
     {
         // 1) build the form
+        
         $orders = new Orders();
         $form = $this->createForm(OrdersType::class, $orders);
 
         // 2) handle the submit (will only happen on POST)
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $entityManager = $this->getDoctrine()->getManager();
+            $session->set('order', $orders);
+            /*$entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($orders);
+            //dump($orders);
+            $session->set('order', $orders);
             $entityManager->flush();
-            $entityManager->refresh($orders);
+            $entityManager->refresh($orders);*/
         
-
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
-            return $this->redirectToRoute('stripe', array('id'=>$orders->getId()));
+            return $this->redirectToRoute('stripe');
         }
 
         return $this->render(
@@ -56,41 +58,28 @@ class OrderController extends AbstractController
     /**
      * @Route("/stripe", name="stripe")
      */
-    public function stripe(Request $request,OrderService $OrderService)
+    public function stripe(Request $request,OrderService $OrderService,Session $session)
     {
-        $id = $request->query->get('id');
-        $idint = intval($id);
-        var_dump($idint);
-        $OrderService->TicketPrice($idint);
-        $error2 = $OrderService->Check1000Ticket($idint);
+     
+        $orders = $session->get('order');
+        $OrderService->TicketPrice($orders);
+     
+        $error2 = $OrderService->Check1000Ticket($orders);
 
-        $repository = $this->getDoctrine()->getRepository(Orders::class);
-        $orderid = $repository->find($idint);
-        $error1 = $OrderService->getHolidays($orderid);
-        $error3 = $OrderService->isValidDay($orderid);
        
+        $error1 = $OrderService->getHolidays($orders);
+        $error3 = $OrderService->isValidDay($orders);
+        
         if(isset($error1) OR isset($error2) OR isset($error3))
         {
             $this->addFlash('error', "$error1 $error2 $error3");
             return $this->redirectToRoute('order');
         }
-        $OrderService->TicketPrice($idint);
-        $repository = $this->getDoctrine()->getRepository(Tickets::class);
-        $ticketsid = $repository->findByOrderId($idint);
-        $TotalPrice = 0;
-
-        $repository = $this->getDoctrine()->getRepository(Orders::class);
-        $orderid = $repository->find($idint);
-
-        $email = $orderid->GetEmail();
-        foreach ($ticketsid as $ticketstest) {
-            $TotalPrice = $TotalPrice + $ticketstest->getPrice();
-            var_dump($TotalPrice);
-            }
-        
+        $email = $orders->GetEmail();
+        $TotalPrice = $OrderService->SumTicket($orders);
+         
         return $this->render(
             '/order/stripe.html.twig',array(
-                'idint' => $idint,
                 'Price' => $TotalPrice,
                 'Email' => $email
             )
@@ -101,28 +90,36 @@ class OrderController extends AbstractController
      * @Route("/payement", name="payement")
      */
 
-    public function payement(Request $request,OrderService $OrderService)
+    public function payement(Request $request,OrderService $OrderService,Session $session)
     {
         
+        $orders = $session->get('order');
+        $alreadypaid = $orders->getId();
+     
+        $tickets = $orders->getTicketsId();
+        $email = $orders->GetEmail();
+        $error = $OrderService->StripeCheckIn($orders);
 
-        $id = $request->query->get('id');
-        $idint = intval($id);
-        $error = $OrderService->StripeCheckIn($idint);
-        
+        if(isset($alreadypaid))
+        {
+            $this->addFlash('error', "Vous avez déjà payé votre commande. Les tickets ont été envoyés dans votre boîte mail $email");
+            return $this->redirectToRoute('order');
+        }
 
         if(isset($error))
         {
             $this->addFlash('error', $error);
-            return $this->redirectToRoute('stripe', array('id'=> $idint));
+            return $this->redirectToRoute('stripe');
         }
-        $repository = $this->getDoctrine()->getRepository(Tickets::class);
-        $ticketsid = $repository->findByOrderId($idint);
 
-        $OrderService->SumTicket($idint);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($orders);
+            $entityManager->flush();
+
 
         return $this->render(
             '/order/payement.html.twig',array(
-                'tickets' => $ticketsid
+                'tickets' => $tickets
             )
                 );
     }

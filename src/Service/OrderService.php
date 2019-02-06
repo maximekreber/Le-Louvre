@@ -17,7 +17,7 @@ class OrderService
 
     }   
     
-    public function StripeCheckIn($id)
+    public function StripeCheckIn($orders)
     {
         \Stripe\Stripe::setApiKey("sk_test_OBYLdnEywNxjtYmtslFnKy7E");
 
@@ -26,7 +26,7 @@ class OrderService
         $token = $_POST['stripeToken'];
         try { 
             $charge = \Stripe\Charge::create([
-                'amount' => $this->SumTicket($id),
+                'amount' => $this->SumTicket($orders),
                 'currency' => 'eur',
                 'description' => 'Paiement des tickets',
                 'source' => $token,
@@ -56,36 +56,34 @@ class OrderService
         return "Une erreur est survenu veuillez ressayer";// Something else happened, completely unrelated to Stripe
       }
     }
-    public function SumTicket($orderid)
+    public function SumTicket($orders)
     {
-        $repository = $this->entityManager->getRepository(Tickets::class);
-        $ticketsid = $repository->findByOrderId($orderid);
+        $tickets = $orders->getTicketsId();
         $TotalPrice = 0;
         
-        foreach ($ticketsid as $ticketstest) {
-            $TotalPrice = $TotalPrice + $ticketstest->getPrice();
+        foreach ($tickets as $ticket) {
+            $TotalPrice = $TotalPrice + $ticket->getPrice();
             }
             return $TotalPrice;
     }
-    public function Check1000Ticket($orderid)
+    public function Check1000Ticket($orders)
     {
       $repository = $this->entityManager->getRepository(Tickets::class);
-      $ticketsid = $repository->findByOrderId($orderid);
-
-      $tickets0 = $ticketsid['0'];
-      $ticketdate = $tickets0->GetDate();
-      $date = $repository->findByDate($ticketdate);
-      $count = count($date);
+      $tickets = $orders->getTicketsId();
+      $ordersdate = $orders->GetDate();
+      $date = $repository->findByDate($ordersdate);
+      $count = count($date) + count($tickets);
+      
         if($count >= 1000)
       {
         return "Il n'y a plus de ticket disponible à cette date.Veuillez choisir une autre date";
       }
     }
-    public function TicketPrice($orderid)
+    public function TicketPrice($orders)
     {
-      $repository = $this->entityManager->getRepository(Tickets::class);
-      $ticketsid = $repository->findByOrderId($orderid);
-        foreach($ticketsid as $ticket){
+    
+      $tickets = $orders->getTicketsId();
+        foreach($tickets as $ticket){
           $date = $ticket->GetBirthDate()->format('Y-m-d');
           $date = strtotime($date);
           $date1 = $ticket->GetDate()->format('Y-m-d');
