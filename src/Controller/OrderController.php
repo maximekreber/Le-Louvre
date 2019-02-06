@@ -67,10 +67,11 @@ class OrderController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Orders::class);
         $orderid = $repository->find($idint);
         $error1 = $OrderService->getHolidays($orderid);
+        $error3 = $OrderService->isValidDay($orderid);
        
-        if(isset($error1) OR isset($error2))
+        if(isset($error1) OR isset($error2) OR isset($error3))
         {
-            $this->addFlash('error', "$error1 $error2");
+            $this->addFlash('error', "$error1 $error2 $error3");
             return $this->redirectToRoute('order');
         }
         $OrderService->TicketPrice($idint);

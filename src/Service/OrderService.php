@@ -100,7 +100,7 @@ class OrderService
           $reduced = $ticket->GetReduced();
           $yo = $interval->y; 
 
-        if($reduced = 1)//reduced
+        if($reduced == 1)//reduced
           {
             $ticket->SetPrice(1000);
           }
@@ -167,6 +167,22 @@ class OrderService
     }
     }
     
+  }
+  public function isValidDay($orders)
+  {
+    $date = $orders->GetDate()->format('Ymd');
+    $now = date("Ymd");
+    $hours = date("h");
+
+    if($date == $now AND $hours >= 14)
+    {
+      return "Vous ne pouvez pas réserver pour toute la journée après 14 heures.";
+    }
+
+   if($date < $now )
+    {
+      return "Vous ne pouvez pas réserver pour les jours passés.";
+    }
   }
   
 }
