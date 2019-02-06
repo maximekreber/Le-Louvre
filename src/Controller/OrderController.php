@@ -69,6 +69,7 @@ class OrderController extends AbstractController
        
         $error1 = $OrderService->getHolidays($orders);
         $error3 = $OrderService->isValidDay($orders);
+        $OrderService->RandomToken($orders);
         
         if(isset($error1) OR isset($error2) OR isset($error3))
         {

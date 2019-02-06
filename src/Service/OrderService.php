@@ -184,5 +184,24 @@ class OrderService
       return "Vous ne pouvez pas réserver pour les jours passés.";
     }
   }
-  
+    public function RandomToken($orders)
+    {
+
+      //Generate a random string.
+      $token = openssl_random_pseudo_bytes(8);
+      
+      //Convert the binary data into hexadecimal representation.
+      $token = bin2hex($token);
+
+      $orders->SetToken($token);
+      $tickets = $orders->GetTicketsId();
+
+      foreach($tickets as $ticket){
+        $token = openssl_random_pseudo_bytes(8);
+      
+        //Convert the binary data into hexadecimal representation.
+        $token = bin2hex($token);
+        $ticket->SetToken($token);
+      }
+    }
 }
