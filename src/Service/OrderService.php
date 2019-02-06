@@ -150,12 +150,16 @@ class OrderService
   
     sort($holidays);
 
-    $isSunday = $orders->GetDate()->format('w');
-    $isSunday = intval($isSunday);
+    $days = $orders->GetDate()->format('w');
+    $days = intval($days);
     
-    if($isSunday == 0)
+    if($days == 0)
     {
       return "Le musée n'est pas ouvert les dimanches.";
+    }
+    if($days == 2)
+    {
+      return "Le musée n'est pas ouvert les mardis.";
     }
     foreach($holidays as $holiday){
       if($date === $holiday){
