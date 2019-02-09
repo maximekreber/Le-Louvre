@@ -31,13 +31,7 @@ class OrderController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $session->set('order', $orders);
-            /*$entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($orders);
-            //dump($orders);
-            $session->set('order', $orders);
-            $entityManager->flush();
-            $entityManager->refresh($orders);*/
-        
+            
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
             return $this->redirectToRoute('stripe');
@@ -55,19 +49,27 @@ class OrderController extends AbstractController
     {
      
         $orders = $session->get('order');
+        $error4 = $OrderService->EmptyTicket($orders);
+        $alreadypaid = $orders->getId();
         $OrderService->SetTicketDate($orders);
         $OrderService->TicketPrice($orders);
      
         $error2 = $OrderService->Check1000Ticket($orders);
-
+        $email = $orders->GetEmail();
        
         $error1 = $OrderService->getHolidays($orders);
         $error3 = $OrderService->isValidDay($orders);
         $OrderService->RandomToken($orders);
-        
-        if(isset($error1) OR isset($error2) OR isset($error3))
+
+        if(isset($alreadypaid))
         {
-            $this->addFlash('error', "$error1 $error2 $error3");
+            $this->addFlash('error', "Vous avez déjà payé votre commande. Les tickets ont été envoyés dans votre boîte mail $email");
+            return $this->redirectToRoute('order');
+        }
+
+        if(isset($error1) OR isset($error2) OR isset($error3) OR isset($error4))
+        {
+            $this->addFlash('error', "$error1 $error2 $error3 $error4");
             return $this->redirectToRoute('order');
         }
         $email = $orders->GetEmail();

@@ -1,10 +1,10 @@
 
 {% block body %}
-    
+    <img src="{{ logo }}" alt="Logo du musée du louvre">
     {{ orders.token }}
-    
+     
     {% for ticket in orders.TicketsId %}
-    
+
 	<div class="card my-4">
               <h5 class="card-header">{{ ticket.date|date('Y-m-d') }}  {{ ticket.token }}</h5>
               <div class="card-body">

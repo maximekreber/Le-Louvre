@@ -124,11 +124,11 @@ class OrderService
       $year = intval($orders->GetDate()->format('Y'));
   
   
-    $easterDate  = easter_date($year);
+    $easterDate  = mktime(0, 0, 0, 3,  21,  $year) + ( 24 *3600 * easter_days($year));
     $easterDay   = intval(date('j', $easterDate));
     $easterMonth = intval(date('n', $easterDate));
     $easterYear   = intval(date('Y', $easterDate));
-
+    
     $holidays = array(
       // Dates fixes
       mktime(0, 0, 0, 1,  1,  $year),  // 1er janvier
@@ -141,8 +141,8 @@ class OrderService
       mktime(0, 0, 0, 12, 25, $year),  // Noel
   
       // Dates variables
-      mktime(0, 0, 0, $easterMonth, $easterDay + 2,  $easterYear), // Lundi de paques
-      mktime(0, 0, 0, $easterMonth, $easterDay + 40, $easterYear),  // Ascension
+      mktime(0, 0, 0, $easterMonth, $easterDay + 1,  $easterYear), // Lundi de paques
+      mktime(0, 0, 0, $easterMonth, $easterDay + 39, $easterYear),  // Ascension
       mktime(0, 0, 0, $easterMonth, $easterDay + 50, $easterYear), // Pentecote
     );
     
@@ -211,6 +211,14 @@ class OrderService
       $date = $orders->GetDate();
       foreach($tickets as $ticket){
           $ticket->SetDate($date);
+      }
+    }
+    public function EmptyTicket($orders)
+    {
+      $ticket = $orders->GetTicketsID();
+      if(!isset($ticket[0]))
+      {
+        return "Vous devez ajouter un ticket à votre commande";
       }
     }
 }
