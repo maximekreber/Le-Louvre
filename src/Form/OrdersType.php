@@ -35,7 +35,9 @@ class OrdersType extends AbstractType
                 'by_reference' => false,
                 'label' => '  ',
                 ])
-            ->add('Valider les tickets', SubmitType::class)
+            ->add('Valider les tickets', SubmitType::class,[
+                'attr' => ['class' => 'btn btn-success '],
+            ])
 
         ;
     }

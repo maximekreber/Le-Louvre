@@ -19,14 +19,16 @@ class EmailService
     public function sendEmail($orders)
     {
         $email = $orders->getEmail();
-        $message = (new \Swift_Message('Ticket Musée du Louvre'))
-        ->setFrom('projetopenclassroom@gmail.com')
+        $message = (new \Swift_Message('Ticket Musée du Louvre'));
+        $logo = $message->embed(\Swift_Image::fromPath('images/logo.jpg'));
+        $message->setFrom('projetopenclassroom@gmail.com')
         ->setTo($email)
         ->setBody(
             $this->twig->render(
-                // templates/emails/index.html.twig
+                // templates/email/index.html.twig
                 'email/index.html.twig',
-                ['orders' => $orders]
+                ['orders' => $orders,
+                'logo' => $logo]
             ),
             'text/html'
         )

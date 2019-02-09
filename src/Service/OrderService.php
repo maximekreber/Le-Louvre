@@ -121,14 +121,14 @@ class OrderService
       $date = $orders->GetDate()->format('Y-m-d');
       $date = strtotime($date);
 
-      $year = $orders->GetDate()->format('Y');
-    
+      $year = intval($orders->GetDate()->format('Y'));
+  
   
     $easterDate  = easter_date($year);
-    $easterDay   = date('j', $easterDate);
-    $easterMonth = date('n', $easterDate);
-    $easterYear   = date('Y', $easterDate);
-  
+    $easterDay   = intval(date('j', $easterDate));
+    $easterMonth = intval(date('n', $easterDate));
+    $easterYear   = intval(date('Y', $easterDate));
+
     $holidays = array(
       // Dates fixes
       mktime(0, 0, 0, 1,  1,  $year),  // 1er janvier
@@ -141,15 +141,16 @@ class OrderService
       mktime(0, 0, 0, 12, 25, $year),  // Noel
   
       // Dates variables
-      mktime(0, 0, 0, $easterMonth, $easterDay + 1,  $easterYear),
-      mktime(0, 0, 0, $easterMonth, $easterDay + 39, $easterYear),
-      mktime(0, 0, 0, $easterMonth, $easterDay + 50, $easterYear),
+      mktime(0, 0, 0, $easterMonth, $easterDay + 2,  $easterYear), // Lundi de paques
+      mktime(0, 0, 0, $easterMonth, $easterDay + 40, $easterYear),  // Ascension
+      mktime(0, 0, 0, $easterMonth, $easterDay + 50, $easterYear), // Pentecote
     );
-  
+    
     sort($holidays);
 
     $days = $orders->GetDate()->format('w');
     $days = intval($days);
+
     
     if($days == 0)
     {

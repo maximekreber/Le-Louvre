@@ -1,5 +1,5 @@
 // setup an "add a tag" link
-var $addTagLink = $('<a href="#" class="add_tag_link">Add a tag</a>');
+var $addTagLink = $('<a href="#" class="add_tag_link btn btn-primary">Ajouter un Ticket</a>');
 var $newLinkLi = $('<li></li>').append($addTagLink);
 
 jQuery(document).ready(function() {
@@ -42,7 +42,7 @@ function addTagForm($collectionHolder, $newLinkLi) {
     var $newFormLi = $('<li></li>').append(newForm);
     
     // also add a remove button, just for this example
-    $newFormLi.append('<a href="#" class="remove-tag">x</a>');
+    $newFormLi.append('<a href="#" class="remove-tag btn btn-danger">Supprimer le Ticket</a>');
     
     $newLinkLi.before($newFormLi);
     

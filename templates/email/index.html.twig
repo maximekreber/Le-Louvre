@@ -1,11 +1,21 @@
 
 {% block body %}
-
+    
+    {{ orders.token }}
+    
     {% for ticket in orders.TicketsId %}
-        <li>{{ ticket.country }}</li>
-        <li>{{ ticket.date|date('Y-m-d') }}</li>
-        <li>{{ ticket.firstname }}</li>
-        <li>{{ ticket.lastname }}</li>
+    
+	<div class="card my-4">
+              <h5 class="card-header">{{ ticket.date|date('Y-m-d') }}  {{ ticket.token }}</h5>
+              <div class="card-body">
+              <p>
+                <li>{{ ticket.birthdate|date('Y-m-d') }}</li>
+                <li>{{ ticket.firstname }}</li>
+                <li>{{ ticket.lastname }}</li>
+                <li>{{ ticket.country }}</li>
+        </p>
+             </div>
+          </div>
     {% endfor %}
 
 {% endblock %}
