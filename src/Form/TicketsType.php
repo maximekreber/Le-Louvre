@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\Orders;
 
 class TicketsType extends AbstractType
@@ -21,11 +22,18 @@ class TicketsType extends AbstractType
         ->add('lastname', TextType::class)
         ->add('country', CountryType::class)
         ->add('birthdate', BirthdayType::class)
-        ->add('allday', CheckboxType::class,[
-            'required' => false,
+        ->add('allday', ChoiceType::class, [
+            'choices'  => [
+                'Oui, je visite toute la journée' => true,
+                'Non, je ne visite pas toute la journée' => false,],
+            'label' => 'Visitez vous toute la journée ?  ',
             ])
-        ->add('reduced', CheckboxType::class,[
-            'required' => false,
+        ->add('reduced', ChoiceType::class, [
+            'choices'  => [
+                'Oui, je dispose d\'un tarif réduit' => true,
+                'Non, je ne dispose pas d\'un tarif réduit' => false,],
+            'label' => 'Disposez vous d\'un tarif réduit ?
+            (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…)  ',
             ]);
         ;
         

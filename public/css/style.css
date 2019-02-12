@@ -1,5 +1,6 @@
 .remove-tag
 {
+  margin-bottom: 10px;
 }
 header.masthead {
     padding-top: 10rem;
@@ -34,4 +35,7 @@ header.masthead {
     header.masthead h1 {
       font-size: 3.5rem;
     }
+  }
+  li{
+    list-style-type: none;
   }

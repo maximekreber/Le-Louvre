@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class OrderController extends AbstractController
 {
     /**
-     * @Route("/order", name="order")
+     * @Route("/", name="order")
      */
     public function index(Request $request,Session $session)
     {
@@ -64,13 +64,13 @@ class OrderController extends AbstractController
         if(isset($alreadypaid))
         {
             $this->addFlash('error', "Vous avez déjà payé votre commande. Les tickets ont été envoyés dans votre boîte mail $email");
-            return $this->redirectToRoute('order');
+            return $this->redirectToRoute('order', ['_fragment' => 'ticket']);
         }
 
         if(isset($error1) OR isset($error2) OR isset($error3) OR isset($error4))
         {
             $this->addFlash('error', "$error1 $error2 $error3 $error4");
-            return $this->redirectToRoute('order');
+            return $this->redirectToRoute('order',['_fragment' => 'ticket']);
         }
         $email = $orders->GetEmail();
         $TotalPrice = $OrderService->SumTicket($orders);
@@ -100,7 +100,7 @@ class OrderController extends AbstractController
         if(isset($alreadypaid))
         {
             $this->addFlash('error', "Vous avez déjà payé votre commande. Les tickets ont été envoyés dans votre boîte mail $email");
-            return $this->redirectToRoute('order');
+            return $this->redirectToRoute('order', ['_fragment' => 'ticket']);
         }
 
         if(isset($error))
