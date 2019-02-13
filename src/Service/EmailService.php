@@ -20,7 +20,7 @@ class EmailService
     {
         $email = $orders->getEmail();
         $message = (new \Swift_Message('Ticket Musée du Louvre'));
-        $logo = $message->embed(\Swift_Image::fromPath('img/Louvre.jpg'));
+        $logo = $message->embed(\Swift_Image::fromPath('img/logo.png'));
         $message->setFrom('projetopenclassroom@gmail.com')
         ->setTo($email)
         ->setBody(

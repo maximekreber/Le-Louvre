@@ -27,7 +27,9 @@ class OrdersType extends AbstractType
             'first_options'  => ['label' => 'Email'],
             'second_options' => ['label' => 'Confirmé Email'],
         ])
-            ->add('date', DateType::class)
+            ->add('date', DateType::class,[
+                'label' => 'Date de la visite',
+            ])
             ->add('tickets_id', CollectionType::class, [
                 'entry_type'   => TicketsType::class,
                 'allow_add'    => true,

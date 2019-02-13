@@ -93,7 +93,6 @@ class OrderController extends AbstractController
         $orders = $session->get('order');
         $alreadypaid = $orders->getId();
      
-        $tickets = $orders->getTicketsId();
         $email = $orders->GetEmail();
         $error = $OrderService->StripeCheckIn($orders);
 
@@ -118,7 +117,7 @@ class OrderController extends AbstractController
 
         return $this->render(
             '/order/payement.html.twig',array(
-                'tickets' => $tickets
+                'email' => $email
             )
                 );
     }

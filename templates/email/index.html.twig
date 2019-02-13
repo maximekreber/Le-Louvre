@@ -1,21 +1,44 @@
 
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta charset="UTF-8">
+</head>
 {% block body %}
-    <img src="{{ logo }}" alt="Logo du musée du louvre">
-    {{ orders.token }}
-     
+
+<body>
+   <h2>Bonjour,
+    Merci d'avoir commandé vos Ticket pour la visite du Musée du Louvre.
+    Votre Numéro de Commande: {{ orders.token }}
+    </br>
+    Vos Billets:</h2>
+
     {% for ticket in orders.TicketsId %}
+    <div style = "border: 3px solid grey">
 
-	<div class="card my-4">
-              <h5 class="card-header">{{ ticket.date|date('Y-m-d') }}  {{ ticket.token }}</h5>
-              <div class="card-body">
-              <p>
-                <li>{{ ticket.birthdate|date('Y-m-d') }}</li>
-                <li>{{ ticket.firstname }}</li>
-                <li>{{ ticket.lastname }}</li>
-                <li>{{ ticket.country }}</li>
-        </p>
-             </div>
-          </div>
+        <div style="margin: 0 auto; width: 497px;">
+
+            <img src = "{{ logo }}" width = "497px" height = "150px" alt="Logo du musée du Louvre" />
+            <h2>Numéro de ticket: {{ ticket.token }}</h2>
+            <h2>Tarif: {{ ticket.price / 100 }}€</h2>
+            <h2>Date: {{ ticket.date|date('d/m/Y') }}</h2>
+
+        </div>
+
+        <div style = "text-align: center">
+
+            <h2>Nom: {{ ticket.lastname }}</h2>
+            <h2>Prénom: {{ ticket.firstname }}</h2>
+            <h2>Date de Naissance: {{ ticket.birthdate|date('d/m/Y') }}</h2>
+
+
+        </div>
+
+</div>
+
     {% endfor %}
-
+</body>
 {% endblock %}
+</html>
