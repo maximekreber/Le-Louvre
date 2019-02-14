@@ -171,15 +171,15 @@ class OrderService
   {
     $date = $orders->GetDate()->format('Ymd');
     $now = date("Ymd");
-    $hours = date("h");
-
-    $allDay = 0;
-
+    $hours = date("H");
+    $tickets = $orders->GetTicketsId();
+    foreach($tickets as $ticket){
+    $allDay = $ticket->GetAllday();
     if($date == $now AND $hours >= 14 AND $allDay == 1)
     {
       return "Vous ne pouvez pas réserver pour toute la journée après 14 heures.";
     }
-
+  }
    if($date < $now )
     {
       return "Vous ne pouvez pas réserver pour les jours passés.";

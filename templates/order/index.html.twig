@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+    {% block stylesheets %} 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker3.css"/>
+  {% endblock %}
+
 {% block title %}Commander {% endblock %}
 
 {% block body %}
@@ -41,6 +45,22 @@
         </div>
     </div>
     </div>
+    {% endblock %}
+
+    {% block javascripts %}
     <script src="/js/jquery-3.3.1.min.js"></script>
     <script src="/js/formcollection.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.fr.min.js"></script>
+    
+    <script>
+      $(document).ready(function() {
+        $('.datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'fr',
+        autoclose: 'true',
+        daysOfWeekDisabled:'2,0',
+      });
+      });
+    </script>
 {% endblock %}
