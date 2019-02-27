@@ -29,11 +29,11 @@ class TicketsType extends AbstractType
         ])
         ->add('birthdate', BirthdayType::class,[
             'label' => 'Date de naissance',
-        ])
+            ])
         ->add('allday', ChoiceType::class, [
             'choices'  => [
                 'Oui, je visite toute la journée' => true,
-                'Non, je ne visite pas toute la journée' => false,],
+                'Non, je visite après 14 heures.' => false,],
             'label' => 'Visitez vous toute la journée ?  ',
             ])
         ->add('reduced', ChoiceType::class, [

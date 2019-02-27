@@ -34,7 +34,7 @@ class OrdersType extends AbstractType
                 'html5' => false,
 
                 // adds a class that can be selected in JavaScript
-                'attr' => ['class' => 'datepicker'],
+                'attr' => ['class' => 'datevisit'],
             ])
             ->add('tickets_id', CollectionType::class, [
                 'entry_type'   => TicketsType::class,

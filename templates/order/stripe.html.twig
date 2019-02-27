@@ -12,6 +12,12 @@
 </div>
 
 {% endfor %}
+    <div class="container">
+        <div class="col-lg-12 text-center">
+    	    <div class="card my-4">
+              <h5 class="card-header">Paiement</h5>
+              <div class="card-body">
+              <h5>Pour procéder au paiement vous devez payer avec Stripe ci-dessous. </h5>
     <form action="/payement" method="POST">
     <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
@@ -21,10 +27,13 @@
     data-amount="{{ Price }}"
     data-name="Le Louvre"
     data-description="Achat ticket en ligne"
-    data-image="https://upload.wikimedia.org/wikipedia/fr/9/9f/Musee_du_Louvre_1992_logo.png"
+    data-image="/img/logopayement.png"
     data-locale="auto"
     data-zip-code="true">
   </script>
 </form>
-
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
