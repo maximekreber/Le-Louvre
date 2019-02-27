@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5aaf284a4023b0aafdf4625023a46052",
+    "content-hash": "b4c4225a6cb289f47ce665b40bec3aa9",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -5740,16 +5740,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v4.2.2",
+            "version": "v4.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "4d53b78ee50da242dffa4eb91ea1f0ee084945c5"
+                "reference": "cb5e1b8960407cbbfa30c4aecdcdfb0486c22ada"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/4d53b78ee50da242dffa4eb91ea1f0ee084945c5",
-                "reference": "4d53b78ee50da242dffa4eb91ea1f0ee084945c5",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/cb5e1b8960407cbbfa30c4aecdcdfb0486c22ada",
+                "reference": "cb5e1b8960407cbbfa30c4aecdcdfb0486c22ada",
                 "shasum": ""
             },
             "require": {
@@ -5768,7 +5768,7 @@
             "type": "symfony-bridge",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2-dev"
+                    "dev-master": "4.1-dev"
                 },
                 "thanks": {
                     "name": "phpunit/phpunit",
@@ -5802,7 +5802,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2019-01-03T09:07:35+00:00"
+            "time": "2019-01-24T21:39:39+00:00"
         },
         {
             "name": "symfony/polyfill-php72",

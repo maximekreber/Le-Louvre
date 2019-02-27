@@ -3,20 +3,11 @@
 namespace App\Service;
 
 use App\Entity\Tickets;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class OrderService 
 {
-    private $entityManager;
 
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-
-    }   
-    
     public function StripeCheckIn($orders)
     {
         \Stripe\Stripe::setApiKey("sk_test_OBYLdnEywNxjtYmtslFnKy7E");
@@ -65,19 +56,6 @@ class OrderService
             $TotalPrice = $TotalPrice + $ticket->getPrice();
             }
             return $TotalPrice;
-    }
-    public function Check1000Ticket($orders)
-    {
-      $repository = $this->entityManager->getRepository(Tickets::class);
-      $tickets = $orders->getTicketsId();
-      $ordersdate = $orders->GetDate();
-      $date = $repository->findByDate($ordersdate);
-      $count = count($date) + count($tickets);
-      
-        if($count >= 1000)
-      {
-        return "Il n'y a plus de ticket disponible à cette date.Veuillez choisir une autre date";
-      }
     }
     public function TicketPrice($orders)
     {

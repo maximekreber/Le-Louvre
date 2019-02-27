@@ -13,6 +13,7 @@ use App\Form\OrdersType;
 use App\Form\TicketsType;
 use App\Service\EmailService;
 use App\Service\OrderService;
+use App\Service\EntityService;
 use Symfony\Component\HttpFoundation\Session\Session; 
 
 class OrderController extends AbstractController
@@ -45,7 +46,7 @@ class OrderController extends AbstractController
     /**
      * @Route("/stripe", name="stripe")
      */
-    public function stripe(Request $request,OrderService $OrderService,Session $session)
+    public function stripe(Request $request,OrderService $OrderService,Session $session,EntityService $EntityService)
     {
      
         $orders = $session->get('order');
@@ -54,7 +55,7 @@ class OrderController extends AbstractController
         $OrderService->SetTicketDate($orders);
         $OrderService->TicketPrice($orders);
      
-        $error2 = $OrderService->Check1000Ticket($orders);
+        $error2 = $EntityService->Check1000Ticket($orders);
         $email = $orders->GetEmail();
        
         $error1 = $OrderService->getHolidays($orders);
